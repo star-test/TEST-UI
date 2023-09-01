@@ -6,6 +6,7 @@ app store
 
     https://appstoreconnect.apple.com/
     https://developer.apple.com/account
+  ![](img/image-1.png)
 小米
 
     https://account.xiaomi.com/
