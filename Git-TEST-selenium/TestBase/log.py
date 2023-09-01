@@ -10,6 +10,9 @@ class Test_base_log():
         fixfox = selenium.webdriver.Firefox()
         fixfox.get(url)
         fixfox.implicitly_wait(10)
+        return fixfox.current_url
+
+
 
     # 从chorm登入
     @classmethod
@@ -17,4 +20,10 @@ class Test_base_log():
         chromes = selenium.webdriver.Chrome()
         chromes.get(url)
         chromes.implicitly_wait(10)
-        
+        return chromes.current_url
+
+        # chromes.find_element().clear()
+        # chromes.find_element().click()
+        # chromes.find_element().send_keys()
+        # chromes.find_element().submit()
+        # chromes.quit()
