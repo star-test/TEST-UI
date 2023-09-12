@@ -1,0 +1,1 @@
+# [Jetbrains全家桶2021.*，2020.*，2019.*(包含最新版本) 永久激活持续更新 (qq.com)](https://mp.weixin.qq.com/s/7VvUbhWWBnnPnbfWdtxcyw)
