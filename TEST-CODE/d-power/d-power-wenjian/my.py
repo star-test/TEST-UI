@@ -13,6 +13,7 @@ def init_fille():
                 xml_files.append(xml_file)
     return xml_files
 def init_dojson(file,datack):
+    """处理数据"""
     with open(file, "w+",encoding="utf8") as f:
         json.dump(datack,f,ensure_ascii=False)
         f.close()
@@ -35,7 +36,7 @@ def init_duoyy(file,datack,len):
         with open(file, "a+", encoding="utf8") as f:
             f.write("}")
             f.close()
-def init_cccxc():
+def init_cc():
     """转换"""
 
     key=(pd.read_excel(init_fille()[0], usecols=[0]).values)
@@ -49,15 +50,19 @@ def init_cccxc():
         # print(a)
         # time.sleep(3)
         # en_s = {key[rands]: en[rands]}
+    return datas
+def init_txt(datas):
+    for k in range(len(datas)):
+        """txt"""
+        en_s=str(datas[k][0]+":"+str(datas[k][1])+",")
+        init_duoyy("en_s.txt", en_s,k)
+        tw_s=str(datas[k][0]+":"+str(datas[k][2])+",")
+        init_duoyy("tw_s.txt", tw_s,k)
+        zh_s=str(datas[k][0]+":"+str(datas[k][3])+",")
+        init_duoyy("zh_s.txt", zh_s,k)
     # print(a)
-    # for k in range(len(datas)):
-    #     """txt"""
-    #     en_s=str(datas[k][0]+":"+str(datas[k][1])+",")
-    #     init_duoyy("en_s.txt", en_s,k)
-    #     tw_s=str(datas[k][0]+":"+str(datas[k][2])+",")
-    #     init_duoyy("tw_s.txt", tw_s,k)
-    #     zh_s=str(datas[k][0]+":"+str(datas[k][3])+",")
-    #     init_duoyy("zh_s.txt", zh_s,k)
+def init_json(datas):
+    """json"""
     en_ss={}
     tw_ss={}
     zh_ss={}
@@ -80,4 +85,5 @@ def init_cccxc():
 
 
 if __name__ == '__main__':
-    init_cccxc()
+    init_json(init_cc())
+    init_txt(init_cc())
