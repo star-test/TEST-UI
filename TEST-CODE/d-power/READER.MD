@@ -1,5 +1,6 @@
 # git@github.com:star-test/TEST-UI.git
 # https://doc.ryansu.pro/zh/
+<<<<<<< HEAD
 # main.index
 # https://www.kdocs.cn/l/cnjvM5fAHWHH
 
@@ -17,3 +18,10 @@
     https://kdocs.cn/l/cooWz4Nf2aSS
 # 泰语翻译
     https://www.kdocs.cn/l/cfjRfsTKBP87
+=======
+# https://www.kdocs.cn/l/cnjvM5fAHWHH
+
+
+# https://tgsc.qifudaren.net/
+
+>>>>>>> e5c279d112e923f708b7a7fb18f293109a28e014
