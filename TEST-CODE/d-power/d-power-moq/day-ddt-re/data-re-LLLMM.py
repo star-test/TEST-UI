@@ -299,11 +299,11 @@ def data_code():
         # print(data_if(title[k][0])+data_if(moq[k][0]))
         payt = {
             "supplier": (supplier[k][0]),
-            "title": data_if(title[k][0])+data_if(moq[k][0]),
+            "title": data_if(title[k][0])+"\tMOQ\t"+data_if(moq[k][0]),
             "subtitle": data_if(subtitle[k][0]),
-            "price2 ": data_if(round(float(price2[k][0])),2),
-            "price": data_if(round(float(price[k][0])),2),
-            "price1 ": data_if(round(float(price1[k][0])),2),
+            "price2 ": data_if(round(float(price2[k][0]),2)),
+            "price": data_if(round(float(price[k][0]),2)),
+            "price1 ": data_if(round(float(price1[k][0]),2)),
             "inventory": data_if(inventory[k][0]),
             "img": img[k][0],
             "imgs": imgs[k][0],
@@ -322,6 +322,12 @@ def data_code():
             # "moq": data_if(moq[k][0]),
             # "whys": data_if(whys[k][0])
         }
+        # a=data_if(size[k][0])
+        # km=[]
+        # km.append(a)
+        # for i in km:
+        #     print(i)
+
         # if payt[text] == "":
         #     payt[text]=data_iftext(text=text[k][0],mc=title[k][0],size=data_if(size[k][0]),color=data_if(color[k][0]),quantity=data_if(quantity[k][0]),packaging=data_if(Packaging[k][0]),whys=data_if(whys[k][0]))
         das.append(payt)
