@@ -11,22 +11,23 @@
 #                  {"id":0,"temp_id":6,"name":"2.2","pid":0}]}]
 
 def list_spilst(data):
-    abds=[]
-    for k in data:
-        abds=k.split(",")
+
+    abds=data.split(",")
     return abds
 def list_children(color,size):
     add_file_color=[]
     add_file_size =[]
+    color = list_spilst(color)
     # print(color)
-    if color!="":
-        color = list_spilst(color)
+    if color!=[]:
+
         for dilid in range(0, len((color))):
             # print(dilid,color[dilid])
             afile = {"id": 0, "temp_id": dilid+3, "name": color[dilid], "pid": 0}
             add_file_color.append(afile)
-    if size!="":
-        size = list_spilst(size)
+    size = list_spilst(size)
+    if size!=[]:
+
         for dilid in range(len(size)):
             afile = {"id": 0, "temp_id":len(color)+3+dilid, "name": size[dilid], "pid": 0}
             add_file_size.append(afile)
@@ -34,10 +35,10 @@ def list_children(color,size):
     return all_file
 def listData_sku(size,color):
     data=[]
-    if color!=[]:
+    if color!="":
         data_color = {"id": 0, "temp_id": 1, "name": "color", "pid": 0,"children": list_children(size=size,color=color)[0]}
         data.append(data_color)
-    if size!=[]:
+    if size!="":
         data_size={"id": 0, "temp_id": 2, "name": "size", "pid": 0,"children":list_children(size=size,color=color)[1]}
         data.append(data_size)
     return str(data)
@@ -68,7 +69,7 @@ def priceData_sku(color,size,price):
     for kis in range(len(sku_all[0])):
         id = 0
         abc=sku_all[0][kis]
-        if color != [] and size != []:
+        if color != "" and size != "":
             for pop in sku_all[1]:
                 id = id + 1
                 id_ids = [abc[0], pop[0]]
@@ -109,7 +110,7 @@ def priceData_sku(color,size,price):
                     "goods_sku_temp_ids": id_ids}
             pa_data.append(data_l)
     return str(pa_data)
-def up_data_M(text,type,img,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
+def up_data_M(text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
     data = {
         "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
         "row[content]":text,#"<p>图文详情<br/></p>"
@@ -154,11 +155,13 @@ def up_data_M(text,type,img,imgs,price,price1,price2,inventory,pop,volume,suppli
     }
     return data
 if __name__ == '__main__':
-    size=[]
-    color=['40*99cm,1233']
-    price="22"
-    print(listData_sku(size=size,color=color))
-    print(priceData_sku(price=price,size=size,color=color))
+     size="sfsfafsaf"
+     color="40*99cm,1233"
+     price="22"
+     # size=""
+     color=""
+     print(listData_sku(size=size,color=color))
+     print(priceData_sku(price=price,size=size,color=color))
 # priceData=[{"id":0,
 #             "temp_id":1,
 #             "goods_sku_ids":"",
