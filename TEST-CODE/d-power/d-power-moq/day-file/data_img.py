@@ -19,24 +19,7 @@ soup = BeautifulSoup(html, 'html.parser')
 img_tags = soup.find_all()
 
 
-def huoqu(self, a):
-    urls = 'https://translate.google.cn/m?sl=auto&tl=en&hl=zh-CN'
-    dict = {'q': '%s' % a}
-    # print(r.text)
-    header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 SLBrowser/7.0.0.12151 SLBChan/30'}
-    reqe = requests.get(url=urls, params=dict)
-    reqe.encoding = 'utf-8'
-    # print(reqe.url)
-    sopu = BeautifulSoup(reqe.text, 'lxml')
-    mu = sopu.select('body > div.root-container > div.result-container')
-    for nsk in mu:
-        self.netext = nsk.text
-    return self.netext
-
-# 获取所有服务器图片链接
-for img_tag in img_tags:
-    print(img_tag)
-    img_url = img_tag.get('src')
-    if img_url and img_url.startswith('http'):
-        print(img_url)
+    # print(img_tag)
+    # img_url = img_tag.get('src')
+    # if img_url and img_url.startswith('http'):
+    #     print(img_url)

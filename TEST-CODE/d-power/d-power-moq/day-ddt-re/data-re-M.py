@@ -11,64 +11,89 @@
 #                  {"id":0,"temp_id":6,"name":"2.2","pid":0}]}]
 
 def list_spilst(data):
-
     abds=data.split(",")
     return abds
-def list_children(color,size):
+
+def list_children(color,size,mqr,modble):
+    add_file_moble=[]
     add_file_color=[]
     add_file_size =[]
-    color = list_spilst(color)
+    add_file_mqr = []
+    modble=list_spilst(modble)
     # print(color)
-    if color!=[]:
-
+    if modble!=[]:
         for dilid in range(0, len((color))):
             # print(dilid,color[dilid])
-            afile = {"id": 0, "temp_id": dilid+3, "name": color[dilid], "pid": 0}
+            afile = {"id": 0, "temp_id": dilid+4, "name": color[dilid], "pid": 0}
+            add_file_color.append(afile)
+
+    color = list_spilst(color)
+    if color!=[]:
+        for dilid in range(0, len((color))):
+            # print(dilid,color[dilid])
+            afile = {"id": 0, "temp_id": dilid+4, "name": color[dilid], "pid": 0}
             add_file_color.append(afile)
     size = list_spilst(size)
     if size!=[]:
-
         for dilid in range(len(size)):
-            afile = {"id": 0, "temp_id":len(color)+3+dilid, "name": size[dilid], "pid": 0}
+            afile = {"id": 0, "temp_id":len(color)+4+dilid, "name": size[dilid], "pid": 0}
             add_file_size.append(afile)
-    all_file=[add_file_color,add_file_size]
+    mqr=list_spilst(mqr)
+    if mqr!=[]:
+        for dilid in range(len(mqr)):
+            afile = {"id": 0, "temp_id":len(color)+4+dilid+len(size), "name": mqr[dilid], "pid": 0}
+            add_file_mqr.append(afile)
+    all_file=[add_file_color,add_file_size,add_file_mq]
     return all_file
-def listData_sku(size,color):
+def listData_sku(size,color,mqr):
     data=[]
     if color!="":
-        data_color = {"id": 0, "temp_id": 1, "name": "color", "pid": 0,"children": list_children(size=size,color=color)[0]}
+        data_color = {"id": 0, "temp_id": 1, "name": "Color", "pid": 0,"children": list_children(size=size,color=color,mq=mq)[0]}
         data.append(data_color)
     if size!="":
-        data_size={"id": 0, "temp_id": 2, "name": "size", "pid": 0,"children":list_children(size=size,color=color)[1]}
+        data_size={"id": 0, "temp_id": 2, "name": "Size", "pid": 0,"children":list_children(size=size,color=color,mq=mq)[1]}
         data.append(data_size)
-    return str(data)
-def goods_sku(color,size):
+    if mq != "":
+        data_mq={"id": 0, "temp_id": 3, "name": "Material quality", "pid": 0,"children":list_children(size=size,color=color,mq=mq)[2]}
+        data.append(data_mq)
+
+    return json.dumps(data)
+def goods_sku(color,size,mq):
     sku_color=[]
     sku_size = []
+    sku_mq=[]
     if color != "":
         color = list_spilst(color)
         for dilid in range(0, len((color))):
             # print(dilid,color[dilid])
-            afile =[dilid+3,color[dilid]]
+            afile =[dilid+4,color[dilid]]
             sku_color.append(afile)
     if size!="":
         size = list_spilst(size)
         for dilid in range(len(size)):
-            afile = [len(color)+3+dilid,size[dilid]]
+            afile = [len(color)+4+dilid,size[dilid]]
             sku_size.append(afile)
+    if mq!="":
+        mq= list_spilst(mq)
+        for dilid in range(len(mq)):
+            afile = [len(color)+4+dilid+len(size),mq[dilid]]
+            sku_mq.append(afile)
     data_all=[]
     if sku_size != []:
         data_all.append(sku_size)
     if sku_color!=[]:
         data_all.append(sku_color)
+    if sku_mq!=[]:
+        data_all.append(sku_mq)
     return data_all
-def priceData_sku(color,size,price):
-    sku_all=goods_sku(color=color,size=size)
+def priceData_sku(color,size,price,inventory,mq):
+    sku_all=goods_sku(color=color,size=size,mq=mq)
     # print(sku_all[0])
     pa_data=[]
     for kis in range(len(sku_all[0])):
         id = 0
         abc=sku_all[0][kis]
+
         if color != "" and size != "":
             for pop in sku_all[1]:
                 id = id + 1
@@ -80,11 +105,12 @@ def priceData_sku(color,size,price):
                         "goods_id": 0,
                         "weigh": 0,
                         "image": "",
-                        "stock": "1",
-                        "stock_warning": "null",
+                        "stock":inventory ,
+                        "stock_warning":None,
                         "price": price,
                         "cost_price": "",
-                        "sn": "", "tm": "",
+                        "sn": "",
+                        "tm": "",
                         "weight": 0,
                         "status": "up",
                         "goods_sku_text": id_text,
@@ -99,8 +125,8 @@ def priceData_sku(color,size,price):
                     "goods_id": 0,
                     "weigh": 0,
                     "image": "",
-                    "stock": "1",
-                    "stock_warning": "null",
+                    "stock": inventory,
+                    "stock_warning": None,
                     "price": price,
                     "cost_price": "",
                     "sn": "", "tm": "",
@@ -109,8 +135,8 @@ def priceData_sku(color,size,price):
                     "goods_sku_text": id_text,
                     "goods_sku_temp_ids": id_ids}
             pa_data.append(data_l)
-    return str(pa_data)
-def up_data_M(text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
+    return json.dumps(pa_data)
+def up_data_M(mqr,moble,sku_price,sku_if,text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
     data = {
         "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
         "row[content]":text,#"<p>图文详情<br/></p>"
@@ -142,26 +168,31 @@ def up_data_M(text,type,img,size,color,imgs,price,price1,price2,inventory,pop,vo
         "row[is_pi]":"0",
         "row[weigh]":sort,#排序
         "row[weight]":weight,#商品重量weight
-        "row[stock_warning_switch]": "false",
         "row[stock]":inventory,#库存inventory
+        "row[stock_warning_switch]": "false",
         "row[stock_warning]":"",
         "row[sn]":a1,#商品编码
         "row[tm]":a2,#商品条码
         "row[zenggoods_sku_id]":"0",
         "row[autosend_content]":"",
         "row[zenggoods_id]":"",
-        "sku[listData]":listData_sku(size=size,color=color),
-        "sku[priceData]":priceData_sku(price=price,size=size,color=color)
+        "sku[listData]":listData_sku(size=size,color=color,mq=mq),
+        "sku[priceData]":priceData_sku(price=price,size=size,color=color,inventory=inventory,mq=mq)
     }
+    data["row[cost_price]"]=""
     return data
 if __name__ == '__main__':
-     size="sfsfafsaf"
-     color="40*99cm,1233"
-     price="22"
-     # size=""
-     color=""
-     print(listData_sku(size=size,color=color))
-     print(priceData_sku(price=price,size=size,color=color))
+    import json
+
+    size = "sfsfafsaf"
+    color = "40*99cm,1233"
+    price = "22"
+    # size=""
+    color = ""
+    pps = [{'id': 0, 'temp_id': 4, 'name': '颜色', 'pid': 0}]
+    print(json.dumps(pps))
+    print(listData_sku(size=size, color=color))
+    print(priceData_sku(price=price, size=size, color=color))
 # priceData=[{"id":0,
 #             "temp_id":1,
 #             "goods_sku_ids":"",
@@ -188,7 +219,13 @@ if __name__ == '__main__':
 #             "weight":0,
 #             "status":"up",
 #             "goods_sku_text":["1.2","2.1"],
-#             "goods_sku_temp_ids":[4,5]},{"id":0,"temp_id":3,"goods_sku_ids":"","goods_id":0,"weigh":0,"image":"","stock":"3","stock_warning":null,"price":"1122","cost_price":"","sn":"","tm":"","weight":0,"status":"up","goods_sku_text":["1。1","2.2"],"goods_sku_temp_ids":[2,6]},{"id":0,"temp_id":4,"goods_sku_ids":"","goods_id":0,"weigh":0,"image":"","stock":"4","stock_warning":null,"price":"1222","cost_price":"","sn":"","tm":"","weight":0,"status":"up","goods_sku_text":["1.2","2.2"],"goods_sku_temp_ids":[4,6]}]
+#             "goods_sku_temp_ids":[4,5]},
+#             {"id":0,"temp_id":3,"goods_sku_ids":"","goods_id":0,
+#             "weigh":0,"image":"","stock":"3","stock_warning":null,
+#             "price":"1122","cost_price":"","sn":"",
+#             "tm":"","weight":0,"status":"up",
+#             "goods_sku_text":["1。1","2.2"],
+#             "goods_sku_temp_ids":[2,6]},{"id":0,"temp_id":4,"goods_sku_ids":"","goods_id":0,"weigh":0,"image":"","stock":"4","stock_warning":null,"price":"1222","cost_price":"","sn":"","tm":"","weight":0,"status":"up","goods_sku_text":["1.2","2.2"],"goods_sku_temp_ids":[4,6]}]
 #
 #
 #

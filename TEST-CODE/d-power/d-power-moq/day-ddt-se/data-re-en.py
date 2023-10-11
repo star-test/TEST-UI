@@ -1,24 +1,15 @@
-import openpyxl
+
 import os
 import pandas as pd
-from googletrans import Translator
 import numpy as np
 import time
 import random
+import json
 import requests
-from bs4 import BeautifulSoup
 
-
-def init_fille():
-    """读文件"""
-    xml_files = []
-    for root, dirs, files in os.walk(os.getcwd()):
-        for file in files:
-            if os.path.splitext(file)[1] == '.xlsx':
-                xml_file = os.path.join(os.getcwd(), file)  # 文件
-                """处理数据"""
-                xml_files.append(xml_file)
-    return xml_files
+# import openpyxl
+# from googletrans import Translator
+# from bs4 import BeautifulSoup
 # def data_ddt():
 #     # 打开Excel文件
 #     workbook = openpyxl.load_workbook(init_fille())
@@ -56,22 +47,32 @@ def init_fille():
 #     str(text), src='zh-CN', dest='en').text
 #     # 输出结果
 #     return translated_text
-def code_en(code):
-    url="https://translate.google.com/"
-    # url = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
-    # headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"}
-    # # params = {'to': 'en', 'from': 'zh-CN',"query":code,"transtype": "enter","simple_means_flag": "3","sign": "797120.576241",
-	# "token": "6faadfa116eee0a50deac11629a5e1d7","domain": "common","ts": "1696821688483"}
-    params={'tl': 'en', 'sl': 'zh-CN',"text":code,"op":"translate"}
-    time.sleep(random.randint(2,5))
-    response = requests.post(url, params=params,)
-
-    # text = BeautifulSoup(response.text, 'lxml')
-    print(response.json)
-
+# def code_en(code):
+#     url="https://translate.google.com/"
+#     # url = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
+#     # headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"}
+#     # # params = {'to': 'en', 'from': 'zh-CN',"query":code,"transtype": "enter","simple_means_flag": "3","sign": "797120.576241",
+# 	# "token": "6faadfa116eee0a50deac11629a5e1d7","domain": "common","ts": "1696821688483"}
+#     params={'tl': 'en', 'sl': 'zh-CN',"text":code,"op":"translate"}
+#     time.sleep(random.randint(2,5))
+#     response = requests.post(url, params=params,)
+#
+#     # text = BeautifulSoup(response.text, 'lxml')
+#     print(response.json)
+#
+def init_fille():
+    """读文件"""
+    xml_files = []
+    for root, dirs, files in os.walk(os.getcwd()):
+        for file in files:
+            if os.path.splitext(file)[1] == '.xlsx':
+                xml_file = os.path.join(os.getcwd(), file)  # 文件
+                """处理数据"""
+                xml_files.append(xml_file)
+    return xml_files
 
 def data_if(text):
-    # 输出翻译
+    # 判断是否为空
     # print(type(text))
     text1=np.str_(text)
     if text1=='nan':
@@ -246,171 +247,97 @@ def data_iftype(type):
     dt = str(spkey[0])+","+str(spkey[0])+","+str(spkey[1])+"," + \
         str(spkey[0])+","+str(spkey[1])+","+str(spkey[2])+","
     return dt
-def data_iftext(text,mc,size,color,quantity,packaging,whys,):
-    bok=f'<p>Product Name:{(mc)}</p><p>{(quantity)}/BOX</p>'
+def data_iftext(text,name,mqr,moble,size,color,quantity,packaging,whys,):
+    bok=f'<p>Product Name:{(name)}</p>'
     text1=np.str_(text)
     if text1=='nan':
+        if moble!="":
+            b=f"<p>Moble:{(moble)}/BOX</p>"
+            bok=bok+b
         if size != "":
             b = f'<p>Size:{(size)}</p>'
             bok = bok + b
         if color != "":
             b = f'<p>Color:{(color)}</p>'
             bok = bok + b
+        if mqr != "":
+            b = f'<p>Material quality:{(mqr)}</p>'
+            bok = bok + b
+        if quantity!="":
+            b=f"<p>{(quantity)}/BOX</p>"
+            bok=bok+b
         if packaging != "":
             b = f'<p>Packaging method:{(packaging)}</p>'
             bok = bok + b
         if whys != "":
-            b = f'<p>{(whys)}</p>'
+            b = f'<p>Related configurations:{(whys)}</p>'
             bok = bok + b
         return (bok + '<p><br/></p>')
     else:
         return text1
-def list_spilst(data):
 
-    abds=data.split(",")
-    return abds
-def list_children(color,size):
-    add_file_color=[]
-    add_file_size =[]
-    color = list_spilst(color)
-    # print(color)
-    if color!=[]:
-
-        for dilid in range(0, len((color))):
-            # print(dilid,color[dilid])
-            afile = {"id": 0, "temp_id": dilid+3, "name": color[dilid], "pid": 0}
-            add_file_color.append(afile)
-    size = list_spilst(size)
-    if size!=[]:
-
-        for dilid in range(len(size)):
-            afile = {"id": 0, "temp_id":len(color)+3+dilid, "name": size[dilid], "pid": 0}
-            add_file_size.append(afile)
-    all_file=[add_file_color,add_file_size]
-    return all_file
-def listData_sku(size,color):
-    data=[]
-    if color!="":
-        data_color = {"id": 0, "temp_id": 1, "name": "color", "pid": 0,"children": list_children(size=size,color=color)[0]}
-        data.append(data_color)
-    if size!="":
-        data_size={"id": 0, "temp_id": 2, "name": "size", "pid": 0,"children":list_children(size=size,color=color)[1]}
-        data.append(data_size)
-    return str(data)
-def goods_sku(color,size):
-    sku_color=[]
-    sku_size = []
-    if color != "":
-        color = list_spilst(color)
-        for dilid in range(0, len((color))):
-            # print(dilid,color[dilid])
-            afile =[dilid+3,color[dilid]]
-            sku_color.append(afile)
-    if size!="":
-        size = list_spilst(size)
-        for dilid in range(len(size)):
-            afile = [len(color)+3+dilid,size[dilid]]
-            sku_size.append(afile)
-    data_all=[]
-    if sku_size != []:
-        data_all.append(sku_size)
-    if sku_color!=[]:
-        data_all.append(sku_color)
-    return data_all
-def priceData_sku(color,size,price,inventory):
-    sku_all=goods_sku(color=color,size=size)
-    # print(sku_all[0])
-    pa_data=[]
-    for kis in range(len(sku_all[0])):
-        id = 0
-        abc=sku_all[0][kis]
-        if color != "" and size != "":
-            for pop in sku_all[1]:
-                id = id + 1
-                id_ids = [abc[0], pop[0]]
-                id_text = [str(abc[1]), str(pop[1])]
-                data_m = {"id": 0,
-                        "temp_id": id,
-                        "goods_sku_ids": "",
-                        "goods_id": 0,
-                        "weigh": 0,
-                        "image": "",
-                        "stock":inventory ,
-                        "stock_warning":None,
-                        "price": price,
-                        "cost_price": "",
-                        "sn": "",
-                        "tm": "",
-                        "weight": 0,
-                        "status": "up",
-                        "goods_sku_text": id_text,
-                        "goods_sku_temp_ids": id_ids}
-                pa_data.append(data_m)
-        else:
-            id_ids = [abc[0]]
-            id_text = [str(abc[1])]
-            data_l = {"id": 0,
-                    "temp_id": kis+1,
-                    "goods_sku_ids": "",
-                    "goods_id": 0,
-                    "weigh": 0,
-                    "image": "",
-                    "stock": inventory,
-                    "stock_warning": None,
-                    "price": price,
-                    "cost_price": "",
-                    "sn": "", "tm": "",
-                    "weight": 0,
-                    "status": "up",
-                    "goods_sku_text": id_text,
-                    "goods_sku_temp_ids": id_ids}
-            pa_data.append(data_l)
-    return str(pa_data)
-def up_data_M(text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
-    data = {
-        "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
-        "row[content]":text,#"<p>图文详情<br/></p>"
-        "row[dispatch_ids]":"1",
-        "row[is_back]":"0",
-        "row[dispatch_type]":"express",
-        "row[expire_day]":"0",
-        "row[image]":img,#"/uploads/20231008/b0cd6255037762f42a31d358be6f7446.png",
-        "row[images]":imgs,#"/uploads/20231008/7bea85a6832b2d95e782747172843b0f.png,/uploads/20231008/b0cd6255037762f42a31d358be6f7446.png",
-        "row[is_score]":"0",
-        "row[score_bi]":"",
-        "row[is_sku]":"1",#0为单1为多
-        "row[original_price]":price1,#划线价格
-        "row[params]":"[]",
-        "row[price]":price,#价格
-        "row[cost_price]":price2,#成本价格
-        "row[service_ids]":"",
-        "row[show_sales]":volume,#虚假销量
-        "row[store_type]":"0",
-        "row[status]":"up",#上架
-        "row[gongyingshang]":supplier,#供应商
-        "row[subtitle]":subtitle,#副标题
-        "row[title]":title,#标题
-        "row[title_en]":titleen,#标题en titleen
-        "row[title_tw]":titletw,#标题tw titletw
-        "row[type]":"normal",
-        "row[views]":pop,#虚假人数pop
-        "row[is_hui]":"0",
-        "row[is_pi]":"0",
-        "row[weigh]":sort,#排序
-        "row[weight]":weight,#商品重量weight
-        "row[stock]":inventory,#库存inventory
-        "row[stock_warning_switch]": "false",
-        "row[stock_warning]":"",
-        "row[sn]":a1,#商品编码
-        "row[tm]":a2,#商品条码
-        "row[zenggoods_sku_id]":"0",
-        "row[autosend_content]":"",
-        "row[zenggoods_id]":"",
-        "sku[listData]":listData_sku(size=size,color=color),
-        "sku[priceData]":priceData_sku(price=price,size=size,color=color,inventory=inventory)
-    }
-    return data
-def up_data_L(text,type,img,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
+def data_code():
+    supplier = (pd.read_excel(init_fille()[0], usecols=[0]).values)
+    title = (pd.read_excel(init_fille()[0], usecols=[1]).values)
+    subtitle = (pd.read_excel(init_fille()[0], usecols=[2]).values)
+    price2 = (pd.read_excel(init_fille()[0], usecols=[3]).values)
+    price = (pd.read_excel(init_fille()[0], usecols=[4]).values)
+    price1 = (pd.read_excel(init_fille()[0], usecols=[5]).values)
+    inventory = (pd.read_excel(init_fille()[0], usecols=[6]).values)
+    img = (pd.read_excel(init_fille()[0], usecols=[7]).values)
+    imgs = (pd.read_excel(init_fille()[0], usecols=[8]).values)
+    type = (pd.read_excel(init_fille()[0], usecols=[9]).values)  # type
+    weight = (pd.read_excel(init_fille()[0], usecols=[10]).values)
+    sort = (pd.read_excel(init_fille()[0], usecols=[11]).values)
+    # 下面为多规格情况
+    moble = (pd.read_excel(init_fille()[0], usecols=[12]).values)#规格型号
+    mqr = (pd.read_excel(init_fille()[0], usecols=[13]).values)#材料
+    size = (pd.read_excel(init_fille()[0], usecols=[14]).values)#尺寸
+    color = (pd.read_excel(init_fille()[0], usecols=[15]).values)#颜色
+    quantity = (pd.read_excel(init_fille()[0], usecols=[16]).values)  # n/箱子
+    Packaging = (pd.read_excel(init_fille()[0], usecols=[17]).values)  # 包装方式
+    moq = (pd.read_excel(init_fille()[0], usecols=[18]).values)  # 名称+moq
+    whys = (pd.read_excel(init_fille()[0], usecols=[19]).values)  # 备注
+    text=(pd.read_excel(init_fille()[0], usecols=[20]).values)
+    sku_l_m=(pd.read_excel(init_fille()[0], usecols=[21]).values)
+    sku_price = (pd.read_excel(init_fille()[0], usecols=[22]).values)
+    sku_if = (pd.read_excel(init_fille()[0], usecols=[23]).values)
+    # 处理表格数据
+    # print(data_iftype(type[0][0]))
+    len_te = len(supplier)
+    das=[]
+    for k in range(len_te):
+        # print(data_if(title[k][0])+data_if(moq[k][0]))
+        payt = {
+            "supplier": (supplier[k][0]),
+            "title": data_if(title[k][0])+"\tMOQ "+data_if(moq[k][0]),
+            "subtitle": data_if(subtitle[k][0]),
+            "price2": data_if(round(float(price2[k][0]),2)),
+            "price": data_if(round(float(price[k][0]),2)),
+            "price1": data_if(round(float(price1[k][0]),2)),
+            "inventory": data_if(inventory[k][0]),
+            "img": img[k][0],
+            "imgs": imgs[k][0],
+            "type": data_iftype(type[k][0]),
+            "weight": data_if(weight[k][0]),
+            "sort": data_if(sort[k][0]),#排序
+            ##其他数据
+            "moble": data_if(moble[k][0]),#规格
+            "mqr": data_if(mqr[k][0]),#材质
+            "sku_l_m":data_if(sku_l_m[k][0]),#判断
+            "size": data_if(size[k][0]),
+            "color": data_if(color[k][0]),
+            # "quantity": data_if(quantity[k][0]),
+            # "Packaging": data_if(Packaging[k][0]),
+            # "moq": data_if(moq[k][0]),
+            # "whys": data_if(whys[k][0]),#备注
+            "text":data_iftext(whys=data_if(whys[k][0]),color=data_if(color[k][0]),packaging=data_if(Packaging[k][0]),size=data_if(size[k][0]),quantity=data_if(quantity[k][0]),text=text[k][0],moble=data_if(moble[k][0]),name=(supplier[k][0]),mqr=data_if(mqr[k][0])),#文本
+            "sku_price":data_if(sku_price[k][0]),#多价格
+            "sku_if":data_if(sku_if[k][0]),#判断分类
+        }
+        das.append(payt)
+    return das
+def up_data_L(text,type,img,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight):
     data = {
         "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
         "row[content]":text,#"<p>图文详情<br/></p>"
@@ -444,106 +371,37 @@ def up_data_L(text,type,img,imgs,price,price1,price2,inventory,pop,volume,suppli
         "row[weight]":weight,#商品重量weight
         "row[stock]":inventory,#库存inventory
         "row[stock_warning]":"",
-        "row[sn]":a1,#商品编码
-        "row[tm]":a2,#商品条码
+        "row[sn]":"",#商品编码
+        "row[tm]":"",#商品条码
         "row[zenggoods_sku_id]":"0",
         "row[autosend_content]":"",
         "row[zenggoods_id]":"",
         "sku[listData]":"[]",
         "sku[priceData]":"[]"
     }
+    data["row[cost_price]"]=""
     return data
-def data_code():
-    supplier = (pd.read_excel(init_fille()[0], usecols=[0]).values)
-    title = (pd.read_excel(init_fille()[0], usecols=[1]).values)
-    subtitle = (pd.read_excel(init_fille()[0], usecols=[2]).values)
-    price2 = (pd.read_excel(init_fille()[0], usecols=[3]).values)
-    price = (pd.read_excel(init_fille()[0], usecols=[4]).values)
-    price1 = (pd.read_excel(init_fille()[0], usecols=[5]).values)
-    inventory = (pd.read_excel(init_fille()[0], usecols=[6]).values)
-    img = (pd.read_excel(init_fille()[0], usecols=[7]).values)
-    imgs = (pd.read_excel(init_fille()[0], usecols=[8]).values)
-    type = (pd.read_excel(init_fille()[0], usecols=[9]).values)  # type
-    weight = (pd.read_excel(init_fille()[0], usecols=[10]).values)
-    sort = (pd.read_excel(init_fille()[0], usecols=[11]).values)
-    a1 = (pd.read_excel(init_fille()[0], usecols=[12]).values)
-    a2 = (pd.read_excel(init_fille()[0], usecols=[13]).values)
-    text = (pd.read_excel(init_fille()[0], usecols=[14]).values)
-    # 下面为多规格情况
-    size = (pd.read_excel(init_fille()[0], usecols=[15]).values)
-    color = (pd.read_excel(init_fille()[0], usecols=[16]).values)
-    quantity = (pd.read_excel(init_fille()[0], usecols=[17]).values)  # n/箱子
-    Packaging = (pd.read_excel(init_fille()[0], usecols=[18]).values)  # 包装方式
-    moq = (pd.read_excel(init_fille()[0], usecols=[19]).values)  # 名称+moq
-    whys = (pd.read_excel(init_fille()[0], usecols=[20]).values)  # 备注
-    sku_l_m=(pd.read_excel(init_fille()[0], usecols=[21]).values)
-    # 处理表格数据
-
-    # print(data_iftype(type[0][0]))
-    len_te = len(supplier)
-    das=[]
-    for k in range(len_te):
-        # print(data_if(title[k][0])+data_if(moq[k][0]))
-        payt = {
-            "supplier": (supplier[k][0]),
-            "title": data_if(title[k][0])+"\tMOQ\t"+data_if(moq[k][0]),
-            "subtitle": data_if(subtitle[k][0]),
-            "price2 ": data_if(round(float(price2[k][0]),2)),
-            "price": data_if(round(float(price[k][0]),2)),
-            "price1 ": data_if(round(float(price1[k][0]),2)),
-            "inventory": data_if(inventory[k][0]),
-            "img": img[k][0],
-            "imgs": imgs[k][0],
-            "type": data_iftype(type[k][0]),
-            "weight": data_if(weight[k][0]),
-            "sort": data_if(sort[k][0]),
-            "a1": data_if(a1[k][0]),
-            "a2": data_if(a2[k][0]),
-            "text": data_iftext(text=text[k][0],mc=title[k][0],size=data_if(size[k][0]),color=data_if(color[k][0]),quantity=data_if(quantity[k][0]),packaging=data_if(Packaging[k][0]),whys=data_if(whys[k][0])),
-            "sku":data_if(sku_l_m[k][0]),
-            ##其他数据
-            "size": data_if(size[k][0]),
-            "color": data_if(color[k][0]),
-            # "quantity": data_if(quantity[k][0]),
-            # "Packaging": data_if(Packaging[k][0]),
-            # "moq": data_if(moq[k][0]),
-            # "whys": data_if(whys[k][0])
-        }
-        # if payt["sku"]=="0":
-        #     print(payt["sku"])
-        # a=data_if(size[k][0])
-        # km=[]
-        # km.append(a)
-        # for i in km:
-        #     print(i)
-
-        # if payt[text] == "":
-        #     payt[text]=data_iftext(text=text[k][0],mc=title[k][0],size=data_if(size[k][0]),color=data_if(color[k][0]),quantity=data_if(quantity[k][0]),packaging=data_if(Packaging[k][0]),whys=data_if(whys[k][0]))
-        das.append(payt)
-    return das
-
 def data_index():
     datas=data_code()
     pat_all=[]
     for i in range(len(datas)):
-        if datas[i]["sku"]=="0":
+        if datas[i]["sku_l_m"]=="0":
             back = up_data_L(supplier=datas[i]["supplier"], title=datas[i]["title"], titleen="", titletw="",
                          type=datas[i]["type"],
-                         weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1 "],
-                         imgs=datas[i]["imgs"],
-                         img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2 "], pop="",
-                         sort=datas[i]["sort"], a1=datas[i]["a1"],
-                         a2=datas[i]["a2"], text=datas[i]["text"], inventory=datas[i]["inventory"], volume="")
+                         weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1"],
+                         imgs=datas[i]["imgs"], img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2"],pop="",
+                         sort=datas[i]["sort"],
+                         text=datas[i]["text"], inventory=datas[i]["inventory"], volume="")
             pat_all.append(back)
-        elif datas[i]["sku"]=="1":
-            back = up_data_M(supplier=datas[i]["supplier"], title=datas[i]["title"], titleen="", titletw="",
-                             type=datas[i]["type"],size=datas[i]["size"],color=datas[i]["color"],
-                             weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1 "],
-                             imgs=datas[i]["imgs"],
-                             img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2 "], pop="",
-                             sort=datas[i]["sort"], a1=datas[i]["a1"],
-                             a2=datas[i]["a2"], text=datas[i]["text"], inventory=datas[i]["inventory"], volume="")
-            pat_all.append(back)
+        # elif datas[i]["sku"]=="1":
+        #     back = up_data_M(supplier=datas[i]["supplier"], title=datas[i]["title"], titleen="", titletw="",
+        #                      type=datas[i]["type"],size=datas[i]["size"],color=datas[i]["color"],
+        #                      weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1 "],
+        #                      imgs=datas[i]["imgs"],
+        #                      img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2 "], pop="",
+        #                      sort=datas[i]["sort"], mqr=datas[i]["whys"],
+        #                       text=datas[i]["text"], inventory=datas[i]["inventory"], volume="",)
+        #     pat_all.append(back)
     return pat_all
 
 def d_power_up(po):
@@ -565,6 +423,6 @@ if __name__ == '__main__':
     a=data_index()
     for i in a:
         # code_en(i)
-        # print(i)
-        d_power_up(i)
+        print(i)
+        # d_power_up(i)
         # time.sleep(random.randint(2,5))
