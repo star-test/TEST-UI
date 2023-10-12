@@ -1,4 +1,4 @@
-
+from math import factorial
 import os
 import pandas as pd
 import numpy as np
@@ -6,6 +6,7 @@ import time
 import random
 import json
 import requests
+import itertools
 
 # import openpyxl
 # from googletrans import Translator
@@ -301,8 +302,8 @@ def data_code():
     text=(pd.read_excel(init_fille()[0], usecols=[20]).values)
     sku_l_m=(pd.read_excel(init_fille()[0], usecols=[21]).values)
     sku_price = (pd.read_excel(init_fille()[0], usecols=[22]).values)
-    sku_if = (pd.read_excel(init_fille()[0], usecols=[23]).values)
-    # 处理表格数据
+    # sku_if = (pd.read_excel(init_fille()[0], usecols=[23]).values)
+    # # 处理表格数据
     # print(data_iftype(type[0][0]))
     len_te = len(supplier)
     das=[]
@@ -333,7 +334,7 @@ def data_code():
             # "whys": data_if(whys[k][0]),#备注
             "text":data_iftext(whys=data_if(whys[k][0]),color=data_if(color[k][0]),packaging=data_if(Packaging[k][0]),size=data_if(size[k][0]),quantity=data_if(quantity[k][0]),text=text[k][0],moble=data_if(moble[k][0]),name=(supplier[k][0]),mqr=data_if(mqr[k][0])),#文本
             "sku_price":data_if(sku_price[k][0]),#多价格
-            "sku_if":data_if(sku_if[k][0]),#判断分类
+            # "sku_if":data_if(sku_if[k][0]),#判断分类
         }
         das.append(payt)
     return das
@@ -381,7 +382,253 @@ def up_data_L(text,type,img,imgs,price,price1,price2,inventory,pop,volume,suppli
     }
     data["row[cost_price]"]=""
     return data
-def data_index():
+def list_spilst(data):
+    if data=="":
+        return ""
+    else:
+        return data.split(",")
+
+def list_children(color,size,mqr,modble):
+    data=[]
+    modble=list_spilst(modble)
+    color = list_spilst(color)
+    size = list_spilst(size)
+    mqr = list_spilst(mqr)
+    sku_price={}
+    # print(color)
+    # sku_len=len(modble)+len(color)+len(size)+len(mqr)
+    sku_id_m = 1
+    if modble !="":
+        abcd = []
+        sku_id=sku_id_m
+        # sku_da=[]
+        for dilid in range(0, len((modble))):
+            # print(dilid,color[dilid])
+            sku_id_m=sku_id_m+1
+            afile = {"id": 0, "temp_id":sku_id_m, "name": modble[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i={str([str(sku_id_m),modble[dilid]]):"model"}
+            sku_price.update(sku_i)
+        data_model = {"id": 0, "temp_id":sku_id, "name": "Model", "pid": 0,
+                      "children": abcd}
+        data.append(data_model)
+        # a={"mobel",str(sku_da)}
+        # sku_price.update(a)
+    if color != "":
+        abcd = []
+        sku_id=sku_id_m
+        for dilid in range(0, len((color))):
+            # print(dilid,color[dilid])
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m, "name": color[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), color[dilid]]): "color"}
+            sku_price.update(sku_i)
+        data_color = {"id": 0, "temp_id":sku_id, "name": "Color", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_color)
+        # b={"color",sku_da}
+        # sku_price.update(b)
+    if size != "":
+        abcd = []
+        sku_id=sku_id_m
+        for dilid in range(0, len(size)):
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m, "name": size[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), size[dilid]]): "size"}
+            sku_price.update(sku_i)
+        data_size = {"id": 0, "temp_id":sku_id, "name": "Size", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_size)
+        # c={"size",sku_da}
+        # sku_price.update(c)
+    if mqr != "":
+        abcd = []
+        sku_id=sku_id_m
+        for dilid in range(0, len(mqr)):
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m,
+                     "name": mqr[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), mqr[dilid]]): "mqr"}
+            sku_price.update(sku_i)
+        data_mqr = {"id": 0, "temp_id":sku_id, "name": "MQR", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_mqr)
+        # d={"mqr",sku_da}
+        # sku_price.update()
+    return json.dumps(data),sku_price
+def sku_len(color,size,mqr,model):
+    # arrays={}
+    abcd=[]
+    if model!=[]:
+        abcd.append(model)
+        # a = {"model,"+str(len(model)):model}
+        # arrays.update(a)
+    if color != []:
+        abcd.append(color)
+        # a = {"cole,"+str(len(color)):color}
+        # arrays.update(a)
+    if size!=[]:
+        abcd.append(size)
+        # a = {"size,"+str(len(size)): size}
+        # arrays.update(a)
+    if mqr!=[]:
+        abcd.append(mqr)
+        # a = {"mqr,"+str(len(size)):mqr}
+        # arrays.update(a)
+    conbit=list(itertools.product(*abcd))
+
+    num_all=[]
+    for con in conbit:
+        a_id=[]
+        b_name=[]
+        for mon in con:
+            akm=list_spilst(mon)
+            # print(akm[0][1:],akm[1][:-1])
+            a_id.append(akm[0][2:-1])
+            # print(a_id)
+            b_name.append(akm[1][2:-3])
+            # print(b_name)
+        # num_all.update({str(a_id):str(b_name)})
+        a=[a_id,b_name]
+        num_all.append(a)
+    # print(num_id,num_name)
+
+    return num_all
+
+def sku_json(t_id,price,up_down,id_text,id_ids):
+    data_m = {"id": 0,
+              "temp_id": t_id,
+              "goods_sku_ids": "",
+              "goods_id": 0,
+              "weigh": 0,
+              "image": "",
+              "stock": 10,#库存
+              "stock_warning": None,
+              "price": price,
+              "cost_price": "",
+              "sn": "",
+              "tm": "",
+              "weight": 0,
+              "status": up_down,#down
+              "goods_sku_text": id_text,
+              "goods_sku_temp_ids": id_ids}
+    return data_m
+def sku_price(data):
+    if data=="":
+        return ""
+    else:
+        akd=[]
+        for i in data.split("\n"):
+            prs=(i.split(","))
+            akd.append(prs)
+        return akd
+
+def listgoods_sku(color,size,mqr,model,price,price_sku):
+    data_m=list_children(color=color,size=size,mqr=mqr,modble=model)[0]
+    aaaa=list_children(color=color,size=size,mqr=mqr,modble=model)[1]
+    # print(len(aaaa))
+    sku_color=[]
+    sku_size=[]
+    sku_mqr=[]
+    sku_model=[]
+    sku_app=[]
+    for anga in aaaa:
+        if aaaa[anga]=="model":
+            sku_model.append(anga)
+        if aaaa[anga]=="color":
+            sku_color.append(anga)
+        if aaaa[anga]=="size":
+            sku_size.append(anga)
+        if aaaa[anga]=="mqr":
+            sku_mqr.append(anga)
+    skulen = sku_len(color=sku_color, size=sku_size, mqr=sku_mqr, model=sku_model)
+    # print(len(skulen),skulen)
+    price_sku=sku_price(price_sku)
+    if price_sku == "":
+        for slu in range(len(skulen)):
+            sk1=sku_json(t_id=slu+1,up_down="up",price=price,id_text=skulen[slu][1],id_ids=skulen[slu][0])
+            sku_app.append(sk1)
+        # print(slu,)
+    else:
+        idsd=1
+        avv=[]
+        amm=[]
+        for ais in price_sku:
+            # print(ais)
+            avv.append(ais[:-1])
+            # print(avv)
+            for poi in skulen:
+                if ais[:-1]==poi[1]:
+                    sk1 = sku_json(t_id=idsd, up_down="up", price=round(float(ais[-1]),2), id_text=poi[1],
+                                   id_ids=poi[0])
+                    sku_app.append(sk1)
+                    idsd=idsd+1
+
+        for poi in skulen:
+            amm.append(poi[1])
+        new_amm=[x for x in amm if x not in avv]
+        # print(type(amm),type(avv))
+        # not_sku=set(amm).intersection(set(avv))
+        # for elemp in not_sku:
+        #     amm.remove(elemp)
+        for iop in new_amm:
+            for ak in skulen:
+                if ak[1]==iop:
+                    sk1 = sku_json(t_id=idsd, up_down="down", price=price, id_text=ak[1], id_ids=ak[0])
+                    sku_app.append(sk1)
+                    idsd=idsd+1
+        # print(new_amm)
+    return data_m,json.dumps(sku_app)
+
+
+def up_data_M(mqr,moble,sku_price,text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,):
+    data = {
+        "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
+        "row[content]":text,#"<p>图文详情<br/></p>"
+        "row[dispatch_ids]":"1",
+        "row[is_back]":"0",
+        "row[dispatch_type]":"express",
+        "row[expire_day]":"0",
+        "row[image]":img,#"/uploads/20231008/b0cd6255037762f42a31d358be6f7446.png",
+        "row[images]":imgs,#"/uploads/20231008/7bea85a6832b2d95e782747172843b0f.png,/uploads/20231008/b0cd6255037762f42a31d358be6f7446.png",
+        "row[is_score]":"0",
+        "row[score_bi]":"",
+        "row[is_sku]":"1",#0为单1为多
+        "row[original_price]":price1,#划线价格
+        "row[params]":"[]",
+        "row[price]":price,#价格
+        "row[cost_price]":price2,#成本价格
+        "row[service_ids]":"",
+        "row[show_sales]":volume,#虚假销量
+        "row[store_type]":"0",
+        "row[status]":"up",#上架
+        "row[gongyingshang]":supplier,#供应商
+        "row[subtitle]":subtitle,#副标题
+        "row[title]":title,#标题
+        "row[title_en]":titleen,#标题en titleen
+        "row[title_tw]":titletw,#标题tw titletw
+        "row[type]":"normal",
+        "row[views]":pop,#虚假人数pop
+        "row[is_hui]":"0",
+        "row[is_pi]":"0",
+        "row[weigh]":sort,#排序
+        "row[weight]":weight,#商品重量weight
+        "row[stock]":inventory,#库存inventory
+        "row[stock_warning_switch]": "false",
+        "row[stock_warning]":"",
+        "row[sn]":"",#商品编码
+        "row[tm]":"",#商品条码
+        "row[zenggoods_sku_id]":"0",
+        "row[autosend_content]":"",
+        "row[zenggoods_id]":"",
+        "sku[listData]":(listgoods_sku(size=size, color=color,mqr=mqr,model=moble,price=price,price_sku=sku_price))[0],
+        "sku[priceData]":(listgoods_sku(size=size, color=color,mqr=mqr,model=moble,price=price,price_sku=sku_price))[1]}
+    data["row[cost_price]"]=""
+    return data
+def test_index():
     datas=data_code()
     pat_all=[]
     for i in range(len(datas)):
@@ -393,15 +640,14 @@ def data_index():
                          sort=datas[i]["sort"],
                          text=datas[i]["text"], inventory=datas[i]["inventory"], volume="")
             pat_all.append(back)
-        # elif datas[i]["sku"]=="1":
-        #     back = up_data_M(supplier=datas[i]["supplier"], title=datas[i]["title"], titleen="", titletw="",
-        #                      type=datas[i]["type"],size=datas[i]["size"],color=datas[i]["color"],
-        #                      weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1 "],
-        #                      imgs=datas[i]["imgs"],
-        #                      img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2 "], pop="",
-        #                      sort=datas[i]["sort"], mqr=datas[i]["whys"],
-        #                       text=datas[i]["text"], inventory=datas[i]["inventory"], volume="",)
-        #     pat_all.append(back)
+        elif datas[i]["sku_l_m"]=="1":
+            back = up_data_M(supplier=datas[i]["supplier"], title=datas[i]["title"], titleen="", titletw="",
+                         type=datas[i]["type"],size=datas[i]["size"],color=datas[i]["color"],moble=datas[i]["moble"],
+                         weight=datas[i]["weight"], subtitle=datas[i]["subtitle"], price1=datas[i]["price1"],
+                         imgs=datas[i]["imgs"], img=datas[i]["img"], price=datas[i]["price"], price2=datas[i]["price2"],pop="",
+                         sort=datas[i]["sort"],sku_price=datas[i]["sku_price"],mqr=datas[i]["mqr"],
+                         text=datas[i]["text"], inventory=datas[i]["inventory"], volume="",)
+            pat_all.append(back)
     return pat_all
 
 def d_power_up(po):
@@ -412,7 +658,7 @@ def d_power_up(po):
     }
     url = "https://tgsc.qifudaren.net/uLHdDeVJXx.php/shopro/goods/goods/add"
     cookies = {
-        "PHPSESSID": "6q06nkjh7941d8nu0esjrslvdm",
+        "PHPSESSID": "jnlq97ivif3pv76p2pl71spkc5",
         "think_var": "zh-cn"
     }
     # dpower_re=requests.post(url=url,headers=headers,cookies=cookies,data=sku_L)
@@ -420,9 +666,9 @@ def d_power_up(po):
     dpower_re=requests.post(url=url,headers=headers,cookies=cookies,data=po)
     print(dpower_re.json)
 if __name__ == '__main__':
-    a=data_index()
+    a=test_index()
     for i in a:
         # code_en(i)
         print(i)
-        # d_power_up(i)
-        # time.sleep(random.randint(2,5))
+        d_power_up(i)
+        time.sleep(random.randint(1,5))

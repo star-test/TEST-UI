@@ -9,134 +9,219 @@
 #     {"id":0,"temp_id":3,"name":"规格名称2","pid":0,
 #      "children":[{"id":0,"temp_id":5,"name":"2.1","pid":0},
 #                  {"id":0,"temp_id":6,"name":"2.2","pid":0}]}]
+import json
+from math import factorial
 
 def list_spilst(data):
-    abds=data.split(",")
-    return abds
+    if data=="":
+        return ""
+    else:
+        return data.split(",")
 
 def list_children(color,size,mqr,modble):
-    add_file_moble=[]
-    add_file_color=[]
-    add_file_size =[]
-    add_file_mqr = []
-    modble=list_spilst(modble)
-    # print(color)
-    if modble!=[]:
-        for dilid in range(0, len((color))):
-            # print(dilid,color[dilid])
-            afile = {"id": 0, "temp_id": dilid+4, "name": color[dilid], "pid": 0}
-            add_file_color.append(afile)
-
-    color = list_spilst(color)
-    if color!=[]:
-        for dilid in range(0, len((color))):
-            # print(dilid,color[dilid])
-            afile = {"id": 0, "temp_id": dilid+4, "name": color[dilid], "pid": 0}
-            add_file_color.append(afile)
-    size = list_spilst(size)
-    if size!=[]:
-        for dilid in range(len(size)):
-            afile = {"id": 0, "temp_id":len(color)+4+dilid, "name": size[dilid], "pid": 0}
-            add_file_size.append(afile)
-    mqr=list_spilst(mqr)
-    if mqr!=[]:
-        for dilid in range(len(mqr)):
-            afile = {"id": 0, "temp_id":len(color)+4+dilid+len(size), "name": mqr[dilid], "pid": 0}
-            add_file_mqr.append(afile)
-    all_file=[add_file_color,add_file_size,add_file_mq]
-    return all_file
-def listData_sku(size,color,mqr):
     data=[]
-    if color!="":
-        data_color = {"id": 0, "temp_id": 1, "name": "Color", "pid": 0,"children": list_children(size=size,color=color,mq=mq)[0]}
-        data.append(data_color)
-    if size!="":
-        data_size={"id": 0, "temp_id": 2, "name": "Size", "pid": 0,"children":list_children(size=size,color=color,mq=mq)[1]}
-        data.append(data_size)
-    if mq != "":
-        data_mq={"id": 0, "temp_id": 3, "name": "Material quality", "pid": 0,"children":list_children(size=size,color=color,mq=mq)[2]}
-        data.append(data_mq)
-
-    return json.dumps(data)
-def goods_sku(color,size,mq):
-    sku_color=[]
-    sku_size = []
-    sku_mq=[]
+    modble=list_spilst(modble)
+    color = list_spilst(color)
+    size = list_spilst(size)
+    mqr = list_spilst(mqr)
+    sku_price={}
+    # print(color)
+    # sku_len=len(modble)+len(color)+len(size)+len(mqr)
+    # a_modble={"Modble":modble}
+    # b_color={"Color":color}
+    # c_size={"Size":size}
+    # d_mqr={"MQR":mqr}
+    sku_id_m = 1
+    if modble !="":
+        abcd = []
+        sku_id=sku_id_m
+        # sku_da=[]
+        for dilid in range(0, len((modble))):
+            # print(dilid,color[dilid])
+            sku_id_m=sku_id_m+1
+            afile = {"id": 0, "temp_id":sku_id_m, "name": modble[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i={str([str(sku_id_m),modble[dilid]]):"model"}
+            sku_price.update(sku_i)
+        data_model = {"id": 0, "temp_id":sku_id, "name": "Model", "pid": 0,
+                      "children": abcd}
+        data.append(data_model)
+        # a={"mobel",str(sku_da)}
+        # sku_price.update(a)
     if color != "":
-        color = list_spilst(color)
+        abcd = []
+        sku_id=sku_id_m
         for dilid in range(0, len((color))):
             # print(dilid,color[dilid])
-            afile =[dilid+4,color[dilid]]
-            sku_color.append(afile)
-    if size!="":
-        size = list_spilst(size)
-        for dilid in range(len(size)):
-            afile = [len(color)+4+dilid,size[dilid]]
-            sku_size.append(afile)
-    if mq!="":
-        mq= list_spilst(mq)
-        for dilid in range(len(mq)):
-            afile = [len(color)+4+dilid+len(size),mq[dilid]]
-            sku_mq.append(afile)
-    data_all=[]
-    if sku_size != []:
-        data_all.append(sku_size)
-    if sku_color!=[]:
-        data_all.append(sku_color)
-    if sku_mq!=[]:
-        data_all.append(sku_mq)
-    return data_all
-def priceData_sku(color,size,price,inventory,mq):
-    sku_all=goods_sku(color=color,size=size,mq=mq)
-    # print(sku_all[0])
-    pa_data=[]
-    for kis in range(len(sku_all[0])):
-        id = 0
-        abc=sku_all[0][kis]
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m, "name": color[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), color[dilid]]): "color"}
+            sku_price.update(sku_i)
+        data_color = {"id": 0, "temp_id":sku_id, "name": "Color", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_color)
+        # b={"color",sku_da}
+        # sku_price.update(b)
+    if size != "":
+        abcd = []
+        sku_id=sku_id_m
+        for dilid in range(0, len(size)):
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m, "name": size[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), size[dilid]]): "size"}
+            sku_price.update(sku_i)
+        data_size = {"id": 0, "temp_id":sku_id, "name": "Size", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_size)
+        # c={"size",sku_da}
+        # sku_price.update(c)
+    if mqr != "":
+        abcd = []
+        sku_id=sku_id_m
+        for dilid in range(0, len(mqr)):
+            sku_id_m = sku_id_m + 1
+            afile = {"id": 0, "temp_id": sku_id_m,
+                     "name": mqr[dilid], "pid": 0}
+            abcd.append(afile)
+            sku_i = {str([str(sku_id_m), mqr[dilid]]): "mqr"}
+            sku_price.update(sku_i)
+        data_mqr = {"id": 0, "temp_id":sku_id, "name": "MQR", "pid": 0,
+                      "children": (abcd)}
+        data.append(data_mqr)
+        # d={"mqr",sku_da}
+        # sku_price.update()
+    return json.dumps(data),sku_price
 
-        if color != "" and size != "":
-            for pop in sku_all[1]:
-                id = id + 1
-                id_ids = [abc[0], pop[0]]
-                id_text = [str(abc[1]), str(pop[1])]
-                data_m = {"id": 0,
-                        "temp_id": id,
-                        "goods_sku_ids": "",
-                        "goods_id": 0,
-                        "weigh": 0,
-                        "image": "",
-                        "stock":inventory ,
-                        "stock_warning":None,
-                        "price": price,
-                        "cost_price": "",
-                        "sn": "",
-                        "tm": "",
-                        "weight": 0,
-                        "status": "up",
-                        "goods_sku_text": id_text,
-                        "goods_sku_temp_ids": id_ids}
-                pa_data.append(data_m)
-        else:
-            id_ids = [abc[0]]
-            id_text = [str(abc[1])]
-            data_l = {"id": 0,
-                    "temp_id": kis+1,
-                    "goods_sku_ids": "",
-                    "goods_id": 0,
-                    "weigh": 0,
-                    "image": "",
-                    "stock": inventory,
-                    "stock_warning": None,
-                    "price": price,
-                    "cost_price": "",
-                    "sn": "", "tm": "",
-                    "weight": 0,
-                    "status": "up",
-                    "goods_sku_text": id_text,
-                    "goods_sku_temp_ids": id_ids}
-            pa_data.append(data_l)
-    return json.dumps(pa_data)
-def up_data_M(mqr,moble,sku_price,sku_if,text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
+from itertools import combinations
+import itertools
+def sku_len(color,size,mqr,model):
+    # arrays={}
+    abcd=[]
+    if model!=[]:
+        abcd.append(model)
+        # a = {"model,"+str(len(model)):model}
+        # arrays.update(a)
+    if color != []:
+        abcd.append(color)
+        # a = {"cole,"+str(len(color)):color}
+        # arrays.update(a)
+    if size!=[]:
+        abcd.append(size)
+        # a = {"size,"+str(len(size)): size}
+        # arrays.update(a)
+    if mqr!=[]:
+        abcd.append(mqr)
+        # a = {"mqr,"+str(len(size)):mqr}
+        # arrays.update(a)
+    conbit=list(itertools.product(*abcd))
+
+    num_all=[]
+    for con in conbit:
+        a_id=[]
+        b_name=[]
+        for mon in con:
+            akm=list_spilst(mon)
+            # print(akm[0][1:],akm[1][:-1])
+            a_id.append(akm[0][2:-1])
+            # print(a_id)
+            b_name.append(akm[1][2:-3])
+            # print(b_name)
+        # num_all.update({str(a_id):str(b_name)})
+        a=[a_id,b_name]
+        num_all.append(a)
+    # print(num_id,num_name)
+
+    return num_all
+
+def sku_json(t_id,price,up_down,id_text,id_ids):
+    data_m = {"id": 0,
+              "temp_id": t_id,
+              "goods_sku_ids": "",
+              "goods_id": 0,
+              "weigh": 0,
+              "image": "",
+              "stock": 10,#库存
+              "stock_warning": None,
+              "price": price,
+              "cost_price": "",
+              "sn": "",
+              "tm": "",
+              "weight": 0,
+              "status": up_down,#down
+              "goods_sku_text": id_text,
+              "goods_sku_temp_ids": id_ids}
+    return data_m
+def sku_price(data):
+    if data=="":
+        return ""
+    else:
+        akd=[]
+        for i in data.split("\n"):
+            prs=(i.split(","))
+            akd.append(prs)
+        return akd
+
+def listgoods_sku(color,size,mqr,model,price,price_sku):
+    data_m=list_children(color=color,size=size,mqr=mqr,modble=model)[0]
+    aaaa=list_children(color=color,size=size,mqr=mqr,modble=model)[1]
+    # print(len(aaaa))
+    sku_color=[]
+    sku_size=[]
+    sku_mqr=[]
+    sku_model=[]
+    sku_app=[]
+    for anga in aaaa:
+        if aaaa[anga]=="model":
+            sku_model.append(anga)
+        if aaaa[anga]=="color":
+            sku_color.append(anga)
+        if aaaa[anga]=="size":
+            sku_size.append(anga)
+        if aaaa[anga]=="mqr":
+            sku_mqr.append(anga)
+    skulen = sku_len(color=sku_color, size=sku_size, mqr=sku_mqr, model=sku_model)
+    # print(len(skulen),skulen)
+    price_sku=sku_price(price_sku)
+    if price_sku == "":
+        for slu in range(len(skulen)):
+            sk1=sku_json(t_id=slu+1,up_down="up",price=price,id_text=skulen[slu][1],id_ids=skulen[slu][0])
+            sku_app.append(sk1)
+        # print(slu,)
+    else:
+        idsd=1
+        avv=[]
+        amm=[]
+        for ais in price_sku:
+            # print(ais)
+            avv.append(ais[:-1])
+            # print(avv)
+            for poi in skulen:
+                if ais[:-1]==poi[1]:
+                    sk1 = sku_json(t_id=idsd, up_down="up", price=round(float(ais[-1]),2), id_text=poi[1],
+                                   id_ids=poi[0])
+                    sku_app.append(sk1)
+                    idsd=idsd+1
+
+        for poi in skulen:
+            amm.append(poi[1])
+        new_amm=[x for x in amm if x not in avv]
+        # print(type(amm),type(avv))
+        # not_sku=set(amm).intersection(set(avv))
+        # for elemp in not_sku:
+        #     amm.remove(elemp)
+        for iop in new_amm:
+            for ak in skulen:
+                if ak[1]==iop:
+                    sk1 = sku_json(t_id=idsd, up_down="down", price=price, id_text=ak[1], id_ids=ak[0])
+                    sku_app.append(sk1)
+                    idsd=idsd+1
+        # print(new_amm)
+    return data_m,json.dumps(sku_app)
+
+
+def up_data_M(mqr,moble,sku_price,text,type,img,size,color,imgs,price,price1,price2,inventory,pop,volume,supplier,sort,subtitle,title,titleen,titletw,weight,a1,a2):
     data = {
         "row[category_ids]":type,#商品类型69,179,183,187,186,194,198,248,316
         "row[content]":text,#"<p>图文详情<br/></p>"
@@ -176,23 +261,32 @@ def up_data_M(mqr,moble,sku_price,sku_if,text,type,img,size,color,imgs,price,pri
         "row[zenggoods_sku_id]":"0",
         "row[autosend_content]":"",
         "row[zenggoods_id]":"",
-        "sku[listData]":listData_sku(size=size,color=color,mq=mq),
-        "sku[priceData]":priceData_sku(price=price,size=size,color=color,inventory=inventory,mq=mq)
-    }
+        "sku[listData]":(listgoods_sku(size=size, color=color,mqr=mqr,model=moble,price=price,price_sku=sku_price))[0],
+        "sku[priceData]":(listgoods_sku(size=size, color=color,mqr=mqr,model=mod,price=price,price_sku=sku_price))[1]}
     data["row[cost_price]"]=""
     return data
 if __name__ == '__main__':
-    import json
 
-    size = "sfsfafsaf"
-    color = "40*99cm,1233"
+
+    size = "size1,size2"
+    color = "co1,c02"
     price = "22"
+    mqr="mq1,mq2"
+    mod="ble1,ble2"
+    proce_sku="ble1,co1,size1,mq1,1999\n"
+    # proce_sku=""
     # size=""
-    color = ""
-    pps = [{'id': 0, 'temp_id': 4, 'name': '颜色', 'pid': 0}]
-    print(json.dumps(pps))
-    print(listData_sku(size=size, color=color))
-    print(priceData_sku(price=price, size=size, color=color))
+    # color = ""
+    # mod=""
+    # if list_spilst(size)=="":
+    #     print(list_spilst(proce_sku))
+    # pps = [{'id': 0, 'temp_id': 4, 'name': '颜色', 'pid': 0}]
+    # print(json.dumps(pps))
+    # print(list_children(size=size, color=color,mqr=mqr,modble=modble))
+    print(listgoods_sku(size=size, color=color,mqr=mqr,model=mod,price=price,price_sku=proce_sku))
+
+
+    # print(listpriceData_sku(price=price, size=size, color=color))
 # priceData=[{"id":0,
 #             "temp_id":1,
 #             "goods_sku_ids":"",
