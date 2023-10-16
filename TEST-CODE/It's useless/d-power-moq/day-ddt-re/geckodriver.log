@@ -1,0 +1,144 @@
+1696897671021	geckodriver	INFO	Listening on 127.0.0.1:63709
+1696897674133	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "63710" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofile5LyRB0"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696897674550	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696897674646	Marionette	INFO	Listening on port 63720
+WebDriver BiDi listening on ws://127.0.0.1:63710
+1696897674715	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63710/devtools/browser/3c8fd40b-ae8c-412d-834a-77da6f84934a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696897811351	Marionette	INFO	Stopped listening on port 63720
+Dynamically enable window occlusion 1
+!!! error running onStopped callback: TypeError: callback is not a function
+ing-port" "63829" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofileZWljmX"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696897763532	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696897763616	Marionette	INFO	Listening on port 63836
+WebDriver BiDi listening on ws://127.0.0.1:63829
+1696897763674	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63829/devtools/browser/28905ca6-0fde-4922-8c28-adf2f1c4cf57
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696897810989	Marionette	INFO	Stopped listening on port 63831696897811448	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "63911" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofileWTrSWp"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696897811905	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696897811980	Marionette	INFO	Listening on port 63918
+WebDriver BiDi listening on ws://127.0.0.1:63911
+1696897812040	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63911/devtools/browser/159ac987-1aab-4fef-b08e-d5f8f00e05d7
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 573: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1696898117238	Marionette	INFO	Stopped listening on port 63918
+Dynamically enable window occlusion 1
+!!! error running onStopped callback: TypeError: callback is not a function
+1696953714588	geckodriver	INFO	Listening on 127.0.0.1:63292
+1696953717626	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "63293" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofileBqIiqr"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696953718034	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696953718239	Marionette	INFO	Listening on port 63302
+WebDriver BiDi listening on ws://127.0.0.1:63293
+1696953718300	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63293/devtools/browser/7e7cf653-2b1e-495f-99cf-9536ef9d72e7
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696953743707	Marionette	INFO	Stopped listening on port 63302
+Dynamically enable window occlusion 1
+1696953777364	geckodriver	INFO	Listening on 127.0.0.1:63461
+1696953780434	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "63462" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofilefaaEX8"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696953780781	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696953780953	Marionette	INFO	Listening on port 63471
+WebDriver BiDi listening on ws://127.0.0.1:63462
+1696953781007	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63462/devtools/browser/45ae4330-bed4-4fe7-9378-784d6c00814a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696953845017	Marionette	INFO	Stopped listening on port 63471
+Dynamically enable window occlusion 1
+1696953910590	geckodriver	INFO	Listening on 127.0.0.1:63959
+1696953913703	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "63960" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofilesIoNLn"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696953914015	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696953914189	Marionette	INFO	Listening on port 63971
+WebDriver BiDi listening on ws://127.0.0.1:63960
+1696953914353	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63960/devtools/browser/9e1c632a-99a1-4a64-80fb-0a521e472c6d
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696953934161	Marionette	INFO	Stopped listening on port 63971
+Dynamically enable window occlusion 1
+!!! error running onStopped callback: TypeError: callback is not a function
+1696953955044	geckodriver	INFO	Listening on 127.0.0.1:64043
+1696953958110	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "64044" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofilemnR3n5"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696953958460	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696953958633	Marionette	INFO	Listening on port 64055
+WebDriver BiDi listening on ws://127.0.0.1:64044
+1696953958685	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:64044/devtools/browser/0dc9ba4e-c52d-4ae1-8950-6cf8451df274
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696953981064	Marionette	INFO	Stopped listening on port 64055
+Dynamically enable window occlusion 1
+1696954126262	geckodriver	INFO	Listening on 127.0.0.1:58625
+1696954129334	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "58626" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofilecU6kHW"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696954129792	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696954129997	Marionette	INFO	Listening on port 58635
+WebDriver BiDi listening on ws://127.0.0.1:58626
+1696954130074	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:58626/devtools/browser/68c9e0d4-631c-486f-881a-f7a188d2ff1c
+console.error: Region.sys.mjs: "Error fetching region" (new Error("TIMEOUT", "resource://gre/modules/Region.sys.mjs", 759))
+console.error: Region.sys.mjs: "Failed to fetch region" (new Error("TIMEOUT", "resource://gre/modules/Region.sys.mjs", 411))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696954149584	Marionette	INFO	Stopped listening on port 58635
+Dynamically enable window occlusion 1
+1696954448808	geckodriver	INFO	Listening on 127.0.0.1:51942
+1696954451834	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "51943" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofileaea4ow"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696954452140	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696954452302	Marionette	INFO	Listening on port 51952
+WebDriver BiDi listening on ws://127.0.0.1:51943
+Read port: 51952
+1696954452510	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:51943/devtools/browser/dd05cabb-7f65-49d4-9b64-2a9679a337dc
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696954464249	Marionette	INFO	Stopped listening on port 51952
+Dynamically enable window occlusion 1
+1696954572581	geckodriver	INFO	Listening on 127.0.0.1:53469
+1696954575641	mozrunner::runner	INFO	Running command: "D:\\百度\\fringe\\firefox.exe" "--marionette" "--remote-debugging-port" "53470" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\IHOPEY~1\\AppData\\Local\\Temp\\rust_mozprofileybRE3f"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1696954575957	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1696954576119	Marionette	INFO	Listening on port 53485
+WebDriver BiDi listening on ws://127.0.0.1:53470
+Read port: 53485
+1696954576340	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:53470/devtools/browser/1521ba07-f62c-4e7f-a73c-99d07a722337
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://tgsc.qifudaren.net."
+1696954601032	Marionette	INFO	Stopped listening on port 53485
+Dynamically enable window occlusion 1
