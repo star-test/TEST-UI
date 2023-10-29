@@ -35,17 +35,19 @@ def checklen(text):
     while (getlength(text) > 8000):
         del text[0]
     return text
-    
+def AI(Input):
 
+    question = checklen(getText("user", Input))
+    SparkApi.answer = ""
+
+    SparkApi.main(appid, api_key, api_secret, Spark_url, domain, question)
+    getText("assistant", SparkApi.answer)
+    return
 
 if __name__ == '__main__':
     text.clear
     while(1):
-        Input = input("\n" +"我:")
-        question = checklen(getText("user",Input))
-        SparkApi.answer =""
-        print("星火:",end = "")
-        SparkApi.main(appid,api_key,api_secret,Spark_url,domain,question)
-        getText("assistant",SparkApi.answer)
+        Input =input("\n" + "我:")
+        print(AI(Input))
         # print(str(text))
 

@@ -122,7 +122,7 @@ def gen_params(appid, domain,question):
     return data
 
 
-def main(appid, api_key, api_secret, Spark_url,domain, question):
+def main(appid,api_key,api_secret,Spark_url,domain, question):
     # print("星火:")
     wsParam = Ws_Param(appid, api_key, api_secret, Spark_url)
     websocket.enableTrace(False)
@@ -133,4 +133,16 @@ def main(appid, api_key, api_secret, Spark_url,domain, question):
     ws.domain = domain
     ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
 
+if __name__ == '__main__':
+    appid = "4e2aae77"  # 填写控制台中获取的 APPID 信息
+    api_secret = "ZDk1ZjA4Yjg0MjMyZWU0MWRkNWY1OTVj"  # 填写控制台中获取的 APISecret 信息
+    api_key = "e6c10e2fce1594b99e886523245baf68"  # 填写控制台中获取的 APIKey 信息
+
+    # 用于配置大模型版本，默认“general/generalv2”
+    domain = "general"  # v1.5版本
+    # domain = "generalv2"    # v2.0版本
+    # 云端环境的服务地址
+    Spark_url = "ws://spark-api.xf-yun.com/v1.1/chat"  # v1.5环境的地址
+    # Spark_url = "ws://spark-api.xf-yun.com/v2.1/chat"  # v2.0环境的地址
+    main(appid=appid,api_secret=api_secret,api_key=api_key,domain=domain,)
 
